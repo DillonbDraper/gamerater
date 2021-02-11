@@ -1,0 +1,28 @@
+[
+    {
+        "model": "raterapi.game",
+        "pk": 1,
+        "fields": {
+            "title": "Super Mario Bros.",
+            "description": "The game that saved the industry",
+            "designer": "Shigeru Miyamoto",
+            "release_year": 1983,
+            "num_of_players": 1,
+            "time_to_beat": "05:00:00",
+            "esrb_rating": "E"
+        }
+    },
+    {
+        "model": "raterapi.game",
+        "pk": 2,
+        "fields": {
+            "title": "Pokemon Red Version",
+            "description": "Taught me to read",
+            "designer": "Satoshi Tajiri",
+            "release_year": 1996,
+            "num_of_players": 1,
+            "time_to_beat": "15:00:00",
+            "esrb_rating": "E"
+        }
+    }
+]

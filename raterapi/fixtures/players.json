@@ -1,0 +1,10 @@
+[
+    {
+        "model": "raterapi.player",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "name": "Steven"
+        }
+    }
+]
