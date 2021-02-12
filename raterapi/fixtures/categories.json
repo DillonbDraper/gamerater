@@ -68,5 +68,23 @@
         "fields": {
             "label": "Battle"
         }
+    },
+
+    {
+        "model": "raterapi.category",
+        "pk": 11,
+        "fields": {
+            "label": "Platformer"
+        }
+    }, 
+
+    {
+        "model": "raterapi.category",
+        "pk": 12,
+        "fields": {
+            "label": "All-ages"
+        }
     }
+
+    
 ]

@@ -11,4 +11,11 @@ class Game(models.Model):
     time_to_beat = models.TimeField()
     esrb_rating = models.CharField(max_length=20)
 
+    @property
+    def categories(self):
+        return self.__categories
+
+    @categories.setter
+    def categories(self, value):
+        self.__categories = value
 
