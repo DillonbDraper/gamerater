@@ -16,14 +16,14 @@ Including another URLconf
 from rest_framework import routers
 from django.contrib import admin
 from django.urls import path, include
-from raterapi.views import Games, Categories
+from raterapi.views import Games, Categories, Reviews
 from raterapi.views import register_user, login_user
 
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', Games, 'game')
 router.register(r'categories', Categories, 'category')
-
+router.register(r'reviews', Reviews, 'review')
 
 urlpatterns = [
     path('', include(router.urls)),
