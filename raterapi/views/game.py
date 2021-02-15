@@ -19,10 +19,11 @@ class Games(ViewSet):
         game = Game()
         game.title = request.data["title"]
         game.description = request.data["description"]
+        game.designer = request.data["designer"]
         game.num_of_players = request.data["num_of_players"]
         game.time_to_beat = request.data["time_to_beat"]
         game.release_year = request.data["release_year"]
-        game.esrb = request.data["esrb"]
+        game.esrb_rating = request.data["esrb_rating"]
         
 
 
@@ -71,6 +72,24 @@ class Games(ViewSet):
         serializer = GameSerializer(
             games, many=True, context={'request': request})
         return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        """Handle DELETE requests for a single game
+
+        Returns:
+            Response -- 200, 404, or 500 status code
+        """
+        try:
+            game = Game.objects.get(pk=pk)
+            game.delete()
+
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+        except Game.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class GameCategoriesSerializer(serializers.ModelSerializer):
 
