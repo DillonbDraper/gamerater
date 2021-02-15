@@ -33,6 +33,7 @@ class Games(ViewSet):
             category = Category.objects.get(pk=request.data['category'])
             game_category.category = category
             game_category.game = game
+            game_category.save()
             serializer = TestSerializer(game, context={'request': request})
             return Response(serializer.data)
         except ValidationError as ex:
