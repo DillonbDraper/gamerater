@@ -4,7 +4,7 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from raterapi.models import Game, Category, GameCategory, Review, Player
+from raterapi.models import Game, Category, GameCategory, Review, Player, reviews
 
 class Reviews(ViewSet):
     
@@ -28,6 +28,30 @@ class Reviews(ViewSet):
             return Response(serializer.data)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request, pk=None):
+        """Handle GET requests to games resource
+
+        Returns:
+            Response -- JSON serialized list of games
+        """
+        # Get all game records from the database
+
+        reviews = Review.objects.all()
+
+
+        serializer = ReviewSerializer(
+            reviews, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def retrieve(selt, request, pk=None):
+
+        reviews = Review.objects.filter(game=pk)
+
+        serializer = ReviewSerializer(
+            reviews, many=True, context={'request': request})
+        return Response(serializer.data)
+
   
     
 class ReviewSerializer(serializers.ModelSerializer):
