@@ -9,3 +9,12 @@ class Review(models.Model):
     body = models.CharField(max_length=5000)
     player = ForeignKey(Player, on_delete=models.CASCADE)
     game = ForeignKey(Game, on_delete=models.CASCADE)
+
+    @property
+    def user(self):
+        return self.__user
+
+    @user.setter
+    def user(self, value):
+        self.__user = value
+
