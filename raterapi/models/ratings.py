@@ -1,7 +1,7 @@
-from raterapi.models.players import Player
-from raterapi.models.games import Game
 from django.db import models
 from django.db.models.fields.related import ForeignKey
+from raterapi.models.games import Game
+from raterapi.models.players import Player
 
 
 class Rating(models.Model):
