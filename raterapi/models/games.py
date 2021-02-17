@@ -30,8 +30,10 @@ class Game(models.Model):
         for rating in ratings:
             total_rating += rating.rating
 
-        average_rating = total_rating / len(ratings)
-        return average_rating
+        if len(ratings) == 0:
+            return "No ratings found"
+        else:
+         return total_rating / len(ratings)
 
         # Calculate the averge and return it.
         # If you don't know how to calculate averge, Google it.

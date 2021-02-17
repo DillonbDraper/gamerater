@@ -107,7 +107,7 @@ class GameSerializer(serializers.ModelSerializer):
     categories=GameCategoriesSerializer(many=True)
     class Meta:
         model = Game
-        fields = ('id', 'title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_beat', 'esrb_rating', 'categories')
+        fields = ('id', 'title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_beat', 'esrb_rating', 'categories', 'average_rating')
 
 class TestSerializer(serializers.ModelSerializer):
     """JSON serializer for games
