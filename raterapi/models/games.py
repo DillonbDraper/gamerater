@@ -20,6 +20,8 @@ class Game(models.Model):
     def categories(self, value):
         self.__categories = value
 
+    
+
     @property
     def average_rating(self):
         """Average rating calculated attribute for each game"""
