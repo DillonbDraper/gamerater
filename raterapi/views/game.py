@@ -35,7 +35,7 @@ class Games(ViewSet):
             game_category.game = game
             game_category.save()
             serializer = TestSerializer(game, context={'request': request})
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -51,10 +51,15 @@ class Games(ViewSet):
             #   http://localhost:8000/games/2
             #
             # The `2` at the end of the route becomes `pk`
-        game = Game.objects.get(pk=pk)
-        game.categories = Category.objects.filter(games__game=game)
-        serializer = GameSerializer(game, context={'request': request})
-        return Response(serializer.data)
+        try:
+            game = Game.objects.get(pk=pk)
+            game.categories = Category.objects.filter(games__game=game)
+            
+            serializer = GameSerializer(game, context={'request': request})
+            return Response(serializer.data)
+        except Game.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND) 
+            
         # except Exception as ex:
             # return HttpResponseServerError(ex)
 
@@ -73,6 +78,31 @@ class Games(ViewSet):
         serializer = GameSerializer(
             games, many=True, context={'request': request})
         return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        """Handle PUT requests for a game
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+
+        # Do mostly the same thing as POST, but instead of
+        # creating a new instance of Game, get the game record
+        # from the database whose primary key is `pk`
+        game = Game.objects.get(pk=pk)
+        game.title = request.data["title"]
+        game.description = request.data["description"]
+        game.designer = request.data["designer"]
+        game.num_of_players = request.data["num_of_players"]
+        game.time_to_beat = request.data["time_to_beat"]
+        game.release_year = request.data["release_year"]
+        game.esrb_rating = request.data["esrb_rating"]
+
+        game.save()
+
+        # 204 status code means everything worked but the
+        # server is not sending back any data in the response
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
         """Handle DELETE requests for a single game

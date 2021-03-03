@@ -25,7 +25,7 @@ class Reviews(ViewSet):
         try:
             review.save()
             serializer = ReviewSerializer(review, context={'request': request})
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -54,6 +54,26 @@ class Reviews(ViewSet):
         serializer = ReviewSerializer(
             reviews, many=True, context={'request': request})
         return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        """Handle PUT requests for a game
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+
+        # Do mostly the same thing as POST, but instead of
+        # creating a new instance of Game, get the game record
+        # from the database whose primary key is `pk`
+        review = Review.objects.get(pk=pk)
+        review.body = request.data["body"]
+        review.game = Game.objects.get(pk=request.data["game"])
+
+        review.save()
+
+        # 204 status code means everything worked but the
+        # server is not sending back any data in the response
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, pk=None):
         """Handle DELETE requests for a single game
